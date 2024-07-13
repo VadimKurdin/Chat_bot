@@ -27,4 +27,43 @@ async def parol(ctx, left: int):
     
     await ctx.send(password_)
     return password_
+
+@bot.command()
+async def encryption(ctx, word: str):
+    cipher=encrypt_word(word)
+    await ctx.send(cipher)
+    return cipher
+
+@bot.command()
+async def decryption(ctx, word: str):
+    cipher=decrypt_word(word)
+    await ctx.send(cipher)
+    return cipher
+
+def encrypt_word(word):
+    if len(word) < 2:
+        return word
+
+    encrypted_word = word[-2] + word[1:-2] + word[0] + word[-1]
+    return encrypted_word
+
+def decrypt_word(word):
+    if len(word) < 2:
+        return word
+    elements=word
+    decrypted_word = elements[-2] + elements[1:-2] + elements[0] + elements[-1]
+    return decrypted_word
+
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+
+@bot.command('duck')
+async def duck(ctx):
+    '''По команде duck вызывает функцию get_duck_image_url'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
     
